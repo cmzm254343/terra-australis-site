@@ -1,0 +1,155 @@
+import React from 'react';
+import { Flame, MapPin, Phone, Mail, Clock, ShieldCheck, Truck, CreditCard, Building2, Smartphone, MessageCircle } from 'lucide-react';
+import { CategoryType } from '../types';
+
+interface FooterProps {
+  onSelectCategory: (cat: CategoryType) => void;
+  onOpenShippingWidget: () => void;
+  onOpenComparison: () => void;
+  onOpenQuoteModal: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({
+  onSelectCategory,
+  onOpenShippingWidget,
+  onOpenComparison,
+  onOpenQuoteModal,
+}) => {
+  return (
+    <footer className="bg-[#0c0a09] text-stone-300 border-t border-paper pt-16 pb-12 text-xs font-sans">
+      <div className="max-w-7xl mx-auto px-4 space-y-12">
+        
+        {/* Main Footer Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+          
+          {/* Col 1: Brand & Bio (2 cols) */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-orange-600 flex items-center justify-center text-white font-bold shadow-md">
+                <Flame size={24} className="fill-white" />
+              </div>
+              <div>
+                <span className="font-bold text-xl tracking-tight text-stone-100 font-serif uppercase">
+                  TERRA AUSTRALIS<span className="text-orange-500 font-serif">.</span>
+                </span>
+                <p className="text-[10px] text-stone-400 font-bold uppercase tracking-[1.5px]">
+                  Lenha • Pellets • Aquecimento • Portugal
+                </p>
+              </div>
+            </div>
+
+            <p className="text-stone-400 leading-relaxed text-xs max-w-md">
+              A <strong>Terra Australis LDA</strong> é uma empresa portuguesa especializada na distribuição de biocombustíveis sólidos de alta densidade (lenha de sobro e azinheira, pellets Enplus A1) e equipamentos de aquecimento.
+            </p>
+
+            <div className="text-[11px] text-stone-400 space-y-2 font-sans pt-2">
+              <p className="flex items-center gap-2">
+                <Phone size={14} className="text-orange-500 shrink-0" />
+                <span>+351 926 755 622 (Linha Geral &amp; Encomendas)</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <Mail size={14} className="text-orange-500 shrink-0" />
+                <span>terra-australis-lda@outlook.com</span>
+              </p>
+            </div>
+          </div>
+
+          {/* Col 2: Categories */}
+          <div className="space-y-3">
+            <h4 className="font-serif font-bold text-stone-100 text-sm uppercase tracking-wider border-b border-paper pb-2">
+              Categorias
+            </h4>
+            <ul className="space-y-2 text-stone-400 font-medium">
+              <li>
+                <button onClick={() => onSelectCategory('lenha')} className="hover:text-orange-400 transition-colors">
+                  Lenha de Sobro &amp; Sobreiro
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onSelectCategory('lenha')} className="hover:text-orange-400 transition-colors">
+                  Lenha de Azinheira Seca
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onSelectCategory('fogoes')} className="hover:text-orange-400 transition-colors">
+                  Fogões a Lenha &amp; Cozinha Tradicional
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onSelectCategory('suportes')} className="hover:text-orange-400 transition-colors">
+                  Suportes &amp; Porta-Lenha
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onSelectCategory('pellets')} className="hover:text-orange-400 transition-colors">
+                  Pellets Enplus A1 (15kg / Paletes)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onSelectCategory('lenha')} className="hover:text-orange-400 transition-colors">
+                  Lenha de Carvalho, Faia &amp; Bétula
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 3: Customer Service & Logistics */}
+          <div className="space-y-3">
+            <h4 className="font-serif font-bold text-stone-100 text-sm uppercase tracking-wider border-b border-paper pb-2">
+              Logística &amp; Suporte
+            </h4>
+            <ul className="space-y-2 text-stone-400 font-medium">
+              <li>
+                <button onClick={onOpenShippingWidget} className="hover:text-orange-400 transition-colors">
+                  Calculador de Portes por Distrito
+                </button>
+              </li>
+              <li>
+                <button onClick={onOpenComparison} className="hover:text-orange-400 transition-colors">
+                  Comparador de Poder Calorífico
+                </button>
+              </li>
+              <li>
+                <button onClick={onOpenQuoteModal} className="hover:text-orange-400 transition-colors">
+                  Orçamentos para Empresas
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 4: Delivery Zones */}
+          <div className="space-y-3">
+            <h4 className="font-serif font-bold text-stone-100 text-sm uppercase tracking-wider border-b border-paper pb-2">
+              Distritos
+            </h4>
+            <p className="text-[11px] text-stone-400 leading-relaxed">
+              Entregamos com camião munido de plataforma elevatória em Lisboa, Setúbal, Santarém, Porto, Braga, Leiria, Coimbra, Évora, Faro, Beja e ilhas.
+            </p>
+            <div className="pt-2">
+              <span className="badge-editorial">
+                Taxa IVA 6% Incluída na Lenha
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Bottom Bar - Payment Icons & Legal */}
+        <div className="pt-8 border-t border-paper flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-stone-500">
+          <p>© 2026 Terra Australis LDA. Todos os direitos reservados.</p>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-stone-400 font-bold uppercase tracking-wider text-[10px]">Pagamento Seguro:</span>
+            <span className="bg-emerald-950/80 text-emerald-300 px-2.5 py-1 rounded border border-emerald-500/30 font-bold flex items-center gap-1.5 uppercase text-[10px]">
+              <Building2 size={12} className="text-emerald-400" /> Transferência Bancária
+            </span>
+            <span className="bg-emerald-900/60 text-emerald-200 px-2.5 py-1 rounded border border-emerald-500/30 font-bold flex items-center gap-1.5 uppercase text-[10px]">
+              <MessageCircle size={12} className="text-emerald-400" /> Confirmação WhatsApp
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  );
+};

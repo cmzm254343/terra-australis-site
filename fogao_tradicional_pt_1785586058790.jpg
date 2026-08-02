@@ -1,0 +1,77 @@
+import { Product } from '../types';
+
+export function getLocalBusinessSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    'name': 'Terra Australis LDA',
+    'image': 'https://images.unsplash.com/photo-1520114878144-6123749968dd?auto=format&fit=crop&w=800&q=80',
+    '@id': 'https://terra-australis.pt/#organization',
+    'url': 'https://terra-australis.pt',
+    'telephone': '+351 243 000 123',
+    'priceRange': '€€',
+    'address': {
+      '@type': 'PostalAddress',
+      'streetAddress': 'Zona Industrial de Santarém, Lote 14',
+      'addressLocality': 'Santarém',
+      'postalCode': '2005-001',
+      'addressCountry': 'PT'
+    },
+    'geo': {
+      '@type': 'GeoCoordinates',
+      'latitude': 39.2369,
+      'longitude': -8.6869
+    },
+    'openingHoursSpecification': {
+      '@type': 'OpeningHoursSpecification',
+      'dayOfWeek': [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+      ],
+      'opens': '08:00',
+      'closes': '18:00'
+    },
+    'sameAs': [
+      'https://www.facebook.com/terraaustralislenha',
+      'https://www.instagram.com/terraaustralis.pt'
+    ],
+    'description': 'Empresa especializada na venda e entrega ao domicílio de lenha de sobro e azinheira, pellets Enplus A1, salamandras e recuperadores de calor em Portugal.'
+  };
+}
+
+export function getProductSchema(product: Product) {
+  return {
+    '@context': 'https://schema.org/',
+    '@type': 'Product',
+    'name': product.name,
+    'image': [product.image, ...(product.additionalImages || [])],
+    'description': product.fullDescription,
+    'sku': product.id,
+    'brand': {
+      '@type': 'Brand',
+      'name': 'Terra Australis LDA'
+    },
+    'offers': {
+      '@type': 'Offer',
+      'url': `https://terra-australis.pt/produto/${product.id}`,
+      'priceCurrency': 'EUR',
+      'price': product.price.toFixed(2),
+      'priceValidUntil': '2026-12-31',
+      'itemCondition': 'https://schema.org/NewCondition',
+      'availability': product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      'seller': {
+        '@type': 'Organization',
+        'name': 'Terra Australis LDA'
+      }
+    },
+    'aggregateRating': {
+      '@type': 'AggregateRating',
+      'ratingValue': product.rating,
+      'reviewCount': product.reviewCount
+    }
+  };
+}

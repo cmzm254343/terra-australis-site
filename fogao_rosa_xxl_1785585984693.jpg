@@ -1,0 +1,74 @@
+import { PORTUGAL_DISTRICTS } from '../data/mockData';
+import { CartItem, ShippingCalculation } from '../types';
+
+export function calculateShipping(
+  districtId: string,
+  items: CartItem[],
+  deliveryMethod: 'truck_lift' | 'pickup' | 'express_courier' = 'truck_lift'
+): ShippingCalculation {
+  const district = PORTUGAL_DISTRICTS.find(d => d.id === districtId) || PORTUGAL_DISTRICTS[0];
+
+  if (deliveryMethod === 'pickup') {
+    return {
+      district: district.name,
+      postalCode: 'Armazém Terra Australis (Santarém/Lisboa)',
+      totalWeightKg: items.reduce((acc, item) => acc + item.product.weightKg * item.quantity, 0),
+      palletCount: items.reduce((acc, item) => acc + (item.product.isPallet ? item.quantity : 0), 0),
+      deliveryMethod: 'pickup',
+      shippingCost: 0,
+      vatShipping: 0,
+      estimatedDays: 'Levantamento Imediato no Armazém (Seg-Sáb 08h-18h)',
+      requiresSpecialTruck: false
+    };
+  }
+
+  const totalWeightKg = items.reduce((acc, item) => acc + item.product.weightKg * item.quantity, 0);
+  const palletCount = items.reduce((acc, item) => acc + (item.product.isPallet ? item.quantity : 0), 0);
+
+  // If no items, default minimums
+  if (items.length === 0) {
+    return {
+      district: district.name,
+      postalCode: '',
+      totalWeightKg: 0,
+      palletCount: 0,
+      deliveryMethod,
+      shippingCost: 0,
+      vatShipping: 0,
+      estimatedDays: `${district.deliveryDaysMin}-${district.deliveryDaysMax} dias úteis`,
+      requiresSpecialTruck: false
+    };
+  }
+
+  let baseCost = district.baseShippingCost;
+
+  // Additional pallets or weight pricing logic
+  if (palletCount > 0) {
+    // Base cost covers 1st pallet, additional pallets have 60% of base cost
+    baseCost = district.baseShippingCost + (palletCount - 1) * (district.baseShippingCost * 0.65);
+  } else {
+    // Weight based for small packages
+    if (totalWeightKg < 10) {
+      baseCost = 5.90;
+    } else if (totalWeightKg < 30) {
+      baseCost = 9.90;
+    } else {
+      baseCost = 18.00 + (totalWeightKg - 30) * district.costPerExtraKg;
+    }
+  }
+
+  const vatShipping = Math.round(baseCost * 0.23 * 100) / 100;
+  const finalCost = Math.round(baseCost * 100) / 100;
+
+  return {
+    district: district.name,
+    postalCode: '',
+    totalWeightKg,
+    palletCount,
+    deliveryMethod,
+    shippingCost: finalCost,
+    vatShipping,
+    estimatedDays: `${district.deliveryDaysMin}-${district.deliveryDaysMax} dias úteis`,
+    requiresSpecialTruck: palletCount > 0 || totalWeightKg > 150
+  };
+}

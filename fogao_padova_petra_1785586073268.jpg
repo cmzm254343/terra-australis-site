@@ -1,0 +1,42 @@
+import { CartItem } from '../types';
+
+export interface TaxBreakdown {
+  subtotalExclVat: number;
+  vat6Amount: number;
+  vat23Amount: number;
+  totalVat: number;
+  itemsTotalIncVat: number;
+}
+
+export function calculateCartTaxes(items: CartItem[]): TaxBreakdown {
+  let subtotalExclVat = 0;
+  let vat6Amount = 0;
+  let vat23Amount = 0;
+
+  items.forEach(item => {
+    const itemTotalIncVat = item.product.price * item.quantity;
+    const vatRate = item.product.vatRate; // 0.06 or 0.23
+
+    // Price displayed includes VAT
+    const baseExclVat = itemTotalIncVat / (1 + vatRate);
+    const vatForThisItem = itemTotalIncVat - baseExclVat;
+
+    subtotalExclVat += baseExclVat;
+    if (vatRate === 0.06) {
+      vat6Amount += vatForThisItem;
+    } else {
+      vat23Amount += vatForThisItem;
+    }
+  });
+
+  const totalVat = vat6Amount + vat23Amount;
+  const itemsTotalIncVat = items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+
+  return {
+    subtotalExclVat: Math.round(subtotalExclVat * 100) / 100,
+    vat6Amount: Math.round(vat6Amount * 100) / 100,
+    vat23Amount: Math.round(vat23Amount * 100) / 100,
+    totalVat: Math.round(totalVat * 100) / 100,
+    itemsTotalIncVat: Math.round(itemsTotalIncVat * 100) / 100
+  };
+}

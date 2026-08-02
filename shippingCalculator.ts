@@ -1,0 +1,693 @@
+import { Product, District, WoodSpecies } from '../types';
+import lenhaSobroImg from '../assets/images/lenha_sobro_azinheira_1785574904904.jpg';
+import lenhaAzinheiraImg from '../assets/images/lenha_azinheira_logs_1785575326190.jpg';
+import lenhaSecaImg from '../assets/images/lenha_seca_empilhada_1785575481826.jpg';
+import lenhaPaletePackImg from '../assets/images/lenha_palete_pack_1785564273036.jpg';
+import lenhaPaletesArmazemImg from '../assets/images/lenha_paletes_armazem_1785564286239.jpg';
+import pelletsEnplusImg from '../assets/images/pellets_enplus_a1_palete_1785577394539.jpg';
+import sacoLenhaImg from '../assets/images/saco_lenha_bag_1785577537277.jpg';
+import fogaoRosaXXLImg from '../assets/images/fogao_rosa_xxl_1785585984693.jpg';
+import fogaoLacunzaLisboaImg from '../assets/images/fogao_lacunza_lisboa_1785585997222.jpg';
+import fogaoSovranaEvoImg from '../assets/images/fogao_sovrana_evo_1785586011548.jpg';
+import fogaoHergomDevaImg from '../assets/images/fogao_hergom_deva_1785586024297.jpg';
+import fogaoTradicionalPtImg from '../assets/images/fogao_tradicional_pt_1785586058790.jpg';
+import fogaoPadovaPetraImg from '../assets/images/fogao_padova_petra_1785586073268.jpg';
+import suporteChloeImg from '../assets/images/suporte_chloe_1785588515756.jpg';
+import suporteCorujaImg from '../assets/images/suporte_coruja_1785588532097.jpg';
+import suporteCaracolImg from '../assets/images/suporte_caracol_1785588547298.jpg';
+import suporteColibriImg from '../assets/images/suporte_colibri_1785588560320.jpg';
+import suportePolareImg from '../assets/images/suporte_polare_1785588584530.jpg';
+import suporteCameloImg from '../assets/images/suporte_camelo_1785588601418.jpg';
+import suporteImpalaImg from '../assets/images/suporte_impala_1785588614830.jpg';
+import suporteFiammeObliquaImg from '../assets/images/suporte_fiamme_obliqua_1785588627518.jpg';
+import suporteFiammeCompactoImg from '../assets/images/suporte_fiamme_compacto_1785588641386.jpg';
+
+export const PORTUGAL_DISTRICTS: District[] = [
+  { id: 'lisboa', name: 'Lisboa', zone: 'centro', baseShippingCost: 25, costPerExtraKg: 0.03, deliveryDaysMin: 1, deliveryDaysMax: 3, truckAccessNote: 'Entrega com camião de plataforma elevatória disponível.' },
+  { id: 'setubal', name: 'Setúbal', zone: 'sul', baseShippingCost: 25, costPerExtraKg: 0.03, deliveryDaysMin: 1, deliveryDaysMax: 3, truckAccessNote: 'Facilidade de acesso em moradias e herdades.' },
+  { id: 'santarem', name: 'Santarém', zone: 'centro', baseShippingCost: 20, costPerExtraKg: 0.02, deliveryDaysMin: 1, deliveryDaysMax: 2, truckAccessNote: 'Zona de logística direta da Terra Australis.' },
+  { id: 'leiria', name: 'Leiria', zone: 'centro', baseShippingCost: 25, costPerExtraKg: 0.03, deliveryDaysMin: 2, deliveryDaysMax: 3 },
+  { id: 'coimbra', name: 'Coimbra', zone: 'centro', baseShippingCost: 30, costPerExtraKg: 0.03, deliveryDaysMin: 2, deliveryDaysMax: 4 },
+  { id: 'porto', name: 'Porto', zone: 'norte', baseShippingCost: 35, costPerExtraKg: 0.04, deliveryDaysMin: 2, deliveryDaysMax: 4 },
+  { id: 'braga', name: 'Braga', zone: 'norte', baseShippingCost: 38, costPerExtraKg: 0.04, deliveryDaysMin: 2, deliveryDaysMax: 4 },
+  { id: 'aveiro', name: 'Aveiro', zone: 'norte', baseShippingCost: 32, costPerExtraKg: 0.03, deliveryDaysMin: 2, deliveryDaysMax: 3 },
+  { id: 'viana', name: 'Viana do Castelo', zone: 'norte', baseShippingCost: 40, costPerExtraKg: 0.04, deliveryDaysMin: 3, deliveryDaysMax: 5 },
+  { id: 'vila_real', name: 'Vila Real', zone: 'norte', baseShippingCost: 42, costPerExtraKg: 0.04, deliveryDaysMin: 3, deliveryDaysMax: 5 },
+  { id: 'braganca', name: 'Bragança', zone: 'norte', baseShippingCost: 45, costPerExtraKg: 0.05, deliveryDaysMin: 3, deliveryDaysMax: 5 },
+  { id: 'viseu', name: 'Viseu', zone: 'centro', baseShippingCost: 35, costPerExtraKg: 0.03, deliveryDaysMin: 2, deliveryDaysMax: 4 },
+  { id: 'guarda', name: 'Guarda', zone: 'centro', baseShippingCost: 38, costPerExtraKg: 0.04, deliveryDaysMin: 3, deliveryDaysMax: 5 },
+  { id: 'castelo_branco', name: 'Castelo Branco', zone: 'centro', baseShippingCost: 35, costPerExtraKg: 0.03, deliveryDaysMin: 2, deliveryDaysMax: 4 },
+  { id: 'portalegre', name: 'Portalegre', zone: 'sul', baseShippingCost: 30, costPerExtraKg: 0.03, deliveryDaysMin: 2, deliveryDaysMax: 3 },
+  { id: 'evora', name: 'Évora', zone: 'sul', baseShippingCost: 28, costPerExtraKg: 0.03, deliveryDaysMin: 2, deliveryDaysMax: 3 },
+  { id: 'beja', name: 'Beja', zone: 'sul', baseShippingCost: 32, costPerExtraKg: 0.03, deliveryDaysMin: 2, deliveryDaysMax: 4 },
+  { id: 'faro', name: 'Faro (Algarve)', zone: 'sul', baseShippingCost: 38, costPerExtraKg: 0.04, deliveryDaysMin: 2, deliveryDaysMax: 4 },
+  { id: 'madeira', name: 'Região Autónoma da Madeira', zone: 'islas', baseShippingCost: 120, costPerExtraKg: 0.12, deliveryDaysMin: 5, deliveryDaysMax: 8, truckAccessNote: 'Transporte marítimo especial por contentor/palete.' },
+  { id: 'acores', name: 'Região Autónoma dos Açores', zone: 'islas', baseShippingCost: 135, costPerExtraKg: 0.14, deliveryDaysMin: 6, deliveryDaysMax: 10, truckAccessNote: 'Transporte marítimo especial por contentor/palete.' }
+];
+
+export const PRODUCTS: Product[] = [
+  {
+    id: 'lenha-seca-1m3',
+    name: 'Pack 1 Palete de Lenha Seca (1.8 m³)',
+    category: 'lenha',
+    woodSpecies: 'carvalho',
+    shortDescription: 'Pack Palete de lenha seca. Opções: Carvalho, Faia, Bétula, Sobro, Eucalipto, Oliveira e Pinho.',
+    fullDescription: 'Pack composto por 1 Palete de lenha seca embalada e empilhada (1.8 m³). Escolha a madeira ideal para o seu equipamento: Carvalho, Faia, Bétula, Sobro/Azinheira, Eucalipto, Oliveira ou Pinho Seco.',
+    price: 50.00,
+    vatRate: 0.06,
+    weightKg: 470,
+    unit: 'Pack 1 Palete (1.8 m³)',
+    isPallet: true,
+    palletQuantity: 1,
+    moistureContentPercentage: 14,
+    calorificPowerKwhKg: 4.9,
+    dimensionsCm: 'Toros de 30 cm a 35 cm',
+    rating: 4.9,
+    reviewCount: 42,
+    stock: 100,
+    featured: true,
+    image: lenhaPaletePackImg,
+    additionalImages: [
+      lenhaSecaImg,
+      'https://images.unsplash.com/photo-1546484475-7f7bd55792da?auto=format&fit=crop&w=800&q=80'
+    ],
+    tags: ['Pack Palete', 'Lenha Seca', 'Carvalho', 'Faia', 'Eucalipto', 'Oliveira']
+  },
+  {
+    id: 'lenha-seca-5m3',
+    name: 'Pack 3 Paletes de Lenha Seca (5 m³)',
+    category: 'lenha',
+    woodSpecies: 'carvalho',
+    shortDescription: 'Pack de 3 Paletes com escolha de madeira: Carvalho, Faia, Bétula, Sobro, Eucalipto, Oliveira e Pinho.',
+    fullDescription: 'Pack de 3 Paletes de lenha seca (5 m³ totais) prontas a queimar. Escolha a espécie de madeira desejada (Carvalho, Faia, Bétula, Sobro/Azinheira, Eucalipto, Oliveira ou Pinho Seco). Entregue em paletes cintadas por camião.',
+    price: 210.00,
+    originalPrice: 250.00,
+    vatRate: 0.06,
+    weightKg: 2350,
+    unit: 'Pack 3 Paletes (5 m³)',
+    isPallet: true,
+    palletQuantity: 3,
+    moistureContentPercentage: 14,
+    calorificPowerKwhKg: 4.9,
+    dimensionsCm: 'Toros de 30 cm a 35 cm',
+    rating: 5.0,
+    reviewCount: 68,
+    stock: 50,
+    featured: true,
+    image: lenhaPaletePackImg,
+    additionalImages: [
+      lenhaPaletesArmazemImg,
+      lenhaSecaImg
+    ],
+    tags: ['Pack 3 Paletes', 'Lenha Seca', 'Desconto Volume', 'Eucalipto/Carvalho/Oliveira']
+  },
+  {
+    id: 'lenha-seca-10m3',
+    name: 'Pack 6 Paletes de Lenha Seca (10 m³)',
+    category: 'lenha',
+    woodSpecies: 'carvalho',
+    shortDescription: 'Pack de 6 Paletes de lenha seca por 380 €. Escolha de madeira Carvalho, Faia, Bétula ou Sobro.',
+    fullDescription: 'Lote e Pack de 6 Paletes de lenha seca (10 m³). Máxima economia e autonomia para todo o inverno. Madeira à escolha: Carvalho, Faia, Bétula ou Sobro/Azinheira.',
+    price: 380.00,
+    originalPrice: 500.00,
+    vatRate: 0.06,
+    weightKg: 4700,
+    unit: 'Pack 6 Paletes (10 m³)',
+    isPallet: true,
+    palletQuantity: 6,
+    moistureContentPercentage: 14,
+    calorificPowerKwhKg: 4.9,
+    dimensionsCm: 'Toros de 30 cm a 35 cm',
+    rating: 5.0,
+    reviewCount: 91,
+    stock: 35,
+    featured: true,
+    image: lenhaPaletesArmazemImg,
+    additionalImages: [
+      lenhaPaletePackImg,
+      lenhaSecaImg
+    ],
+    tags: ['Pack 6 Paletes', 'Mais Popular', 'Carvalho', 'Faia']
+  },
+  {
+    id: 'lenha-seca-20m3',
+    name: 'Pack 12 Paletes de Lenha Seca (20 m³)',
+    category: 'lenha',
+    woodSpecies: 'carvalho',
+    shortDescription: 'Pack de 12 Paletes de lenha por apenas 660 €. Escolha a sua madeira: Carvalho, Faia ou Bétula.',
+    fullDescription: 'Pack grande volume de 12 Paletes de lenha seca. Ideal para vivendas e quintas. Permite selecionar a espécie de madeira (Carvalho, Faia, Bétula ou Sobro) para melhor adaptação às suas necessidades.',
+    price: 660.00,
+    originalPrice: 1000.00,
+    vatRate: 0.06,
+    weightKg: 9400,
+    unit: 'Pack 12 Paletes (20 m³)',
+    isPallet: true,
+    palletQuantity: 12,
+    moistureContentPercentage: 14,
+    calorificPowerKwhKg: 4.9,
+    dimensionsCm: 'Toros de 30 cm a 35 cm',
+    rating: 4.9,
+    reviewCount: 34,
+    stock: 20,
+    featured: true,
+    image: lenhaPaletesArmazemImg,
+    additionalImages: [
+      lenhaPaletePackImg,
+      lenhaSecaImg
+    ],
+    tags: ['Pack 12 Paletes', 'Grande Economia', 'Paletes de Lenha']
+  },
+  {
+    id: 'lenha-seca-40m3',
+    name: 'Lenha Seca - 40 Metros Cúbicos (40 m³)',
+    category: 'lenha',
+    woodSpecies: 'sobro',
+    shortDescription: 'Carga de Camião Completo de 40 m³ por apenas 1370 €. O melhor preço por m³ do mercado.',
+    fullDescription: 'Fornecimento industrial/comercial de 40 metros cúbicos de lenha seca. Indicado para restauração, pizzarias, condomínios e grandes propriedades.',
+    price: 1370.00,
+    originalPrice: 2000.00,
+    vatRate: 0.06,
+    weightKg: 18800,
+    unit: '40 Metros Cúbicos (40 m³)',
+    isPallet: true,
+    palletQuantity: 24,
+    moistureContentPercentage: 14,
+    calorificPowerKwhKg: 4.9,
+    dimensionsCm: 'Toros de 30 cm a 35 cm',
+    rating: 5.0,
+    reviewCount: 19,
+    stock: 10,
+    featured: true,
+    image: lenhaPaletesArmazemImg,
+    additionalImages: [
+      lenhaPaletePackImg,
+      lenhaSecaImg
+    ],
+    tags: ['Lenha Seca', '40 m³', '1370€', 'Camião Completo']
+  },
+  {
+    id: 'lenha-sobro-palete',
+    name: 'Lenha de Sobro (Sobreiro) - Palete Completa 1.8 m³',
+    category: 'lenha',
+    woodSpecies: 'sobro',
+    shortDescription: 'Lenha nobre de grande densidade e queima lenta com brasas excecionais e duradouras. Seca com humidade inferior a 16%.',
+    fullDescription: 'A Lenha de Sobro (Quercus suber) selecionada pela Terra Australis LDA é ideal para aquecimento intensivo em lareiras, salamandras e recuperadores de calor. Palete empilhada com rigor, pronta a queimar. Oferece chama estável, libertação gradual de calor e pouca cinza.',
+    price: 245.00,
+    originalPrice: 269.00,
+    vatRate: 0.06,
+    weightKg: 850,
+    unit: 'Palete 1.8 m³ (Aprox. 850 kg)',
+    isPallet: true,
+    palletQuantity: 1,
+    moistureContentPercentage: 15,
+    calorificPowerKwhKg: 4.8,
+    dimensionsCm: 'Toros de 30cm a 35cm (Corte personalizado disponível)',
+    rating: 4.9,
+    reviewCount: 84,
+    stock: 45,
+    featured: true,
+    image: lenhaSobroImg,
+    additionalImages: [
+      'https://images.unsplash.com/photo-1546484475-7f7bd55792da?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1542382257-80dedb725088?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1517646287270-a5a9ca602e5c?auto=format&fit=crop&w=800&q=80'
+    ],
+    tags: ['Lenha Seca', 'Sobro', 'Queima Lenta', 'Palete', 'Mais Vendido']
+  },
+  {
+    id: 'lenha-azinheira-palete',
+    name: 'Lenha de Azinheira Seca - Palete 1.8 m³',
+    category: 'lenha',
+    woodSpecies: 'azinheira',
+    shortDescription: 'A lenha com o maior poder calorífico do mercado português. Gera brasas muito duradouras e intenso calor radiante.',
+    fullDescription: 'Proveniente de podas sustentáveis em montado português. A Azinheira é a madeira mais dura e densa do ecossistema ibérico. O seu alto valor calórico garante um rendimento superior e menor consumo de madeira ao longo do inverno.',
+    price: 255.00,
+    vatRate: 0.06,
+    weightKg: 900,
+    unit: 'Palete 1.8 m³ (Aprox. 900 kg)',
+    isPallet: true,
+    palletQuantity: 1,
+    moistureContentPercentage: 14,
+    calorificPowerKwhKg: 5.1,
+    dimensionsCm: 'Toros de 30cm ou 40cm',
+    rating: 4.9,
+    reviewCount: 62,
+    stock: 30,
+    featured: true,
+    image: lenhaAzinheiraImg,
+    additionalImages: [
+      'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1520114878144-6123749968dd?auto=format&fit=crop&w=800&q=80'
+    ],
+    tags: ['Azinheira', 'Máximo Calor', 'Brasas Fortes']
+  },
+  {
+    id: 'lenha-mistura-saco-25kg',
+    name: 'Saco de Lenha Mistura Selecionada (Sobro & Eucalipto) 25 kg',
+    category: 'lenha',
+    woodSpecies: 'mistura',
+    shortDescription: 'Saco prático e fácil de manusear. Combinação ideal de combustão rápida (Eucalipto) e queima duradoura (Sobro).',
+    fullDescription: 'Perfeito para apartamentos, moradias sem grande espaço de armazenamento ou consumo ocasional ao fim de semana. Saco limpo, sem sujidade, lenha cortada e rachada à medida standard de 30 cm.',
+    price: 9.90,
+    originalPrice: 11.50,
+    vatRate: 0.06,
+    weightKg: 25,
+    unit: 'Saco de 25 kg',
+    isPallet: false,
+    moistureContentPercentage: 17,
+    calorificPowerKwhKg: 4.6,
+    dimensionsCm: 'Toros de 30 cm',
+    rating: 4.7,
+    reviewCount: 110,
+    stock: 350,
+    featured: false,
+    image: sacoLenhaImg,
+    additionalImages: [
+      'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1546484475-7f7bd55792da?auto=format&fit=crop&w=800&q=80'
+    ],
+    tags: ['Sacos', 'Fácil Arrumação', 'Ideal Apartamentos']
+  },
+  {
+    id: 'pellets-enplus-a1-palete',
+    name: 'Palete de Pellets de Madeira Enplus A1 - 70 Sacos (1050 kg)',
+    category: 'pellets',
+    shortDescription: 'Pellets de pinho 100% natural, sem aditivos químicos nem aglomerantes. Certificação Enplus A1 e DIN Plus.',
+    fullDescription: 'Os Pellets Terra Australis Premium são produzidos em Portugal a partir de resíduos de madeira descorçada. Com um baixíssimo teor de cinzas (<0.5%), protegem a salamandra contra resíduos acumulados no queimador e garantem máxima eficiência energética.',
+    price: 365.00,
+    originalPrice: 389.00,
+    vatRate: 0.06,
+    weightKg: 1050,
+    unit: 'Palete com 70 Sacos de 15 kg',
+    isPallet: true,
+    palletQuantity: 1,
+    moistureContentPercentage: 7,
+    calorificPowerKwhKg: 5.0,
+    rating: 5.0,
+    reviewCount: 142,
+    stock: 60,
+    featured: true,
+    image: pelletsEnplusImg,
+    additionalImages: [
+      'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80'
+    ],
+    tags: ['Pellets', 'Enplus A1', 'Pinho Nacional', 'Palete Completa', 'Alta Eficiência']
+  },
+  {
+    id: 'pellets-saco-15kg',
+    name: 'Saco de Pellets Premium Enplus A1 - 15 kg',
+    category: 'pellets',
+    shortDescription: 'Saco individual de pellets de alto rendimento. Baixo resíduo e chama viva para salamandras e caldeiras.',
+    fullDescription: 'Saco plástico resistente a humidade. Diâmetro de 6mm rigorosamente calibrado para alimentadores automáticos de salamandras a pellets.',
+    price: 5.49,
+    vatRate: 0.06,
+    weightKg: 15,
+    unit: 'Saco 15 kg',
+    isPallet: false,
+    moistureContentPercentage: 7,
+    calorificPowerKwhKg: 5.0,
+    rating: 4.8,
+    reviewCount: 95,
+    stock: 800,
+    featured: false,
+    image: pelletsEnplusImg,
+    additionalImages: [
+      'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80'
+    ],
+    tags: ['Pellets', 'Saco 15kg', 'Prático']
+  },
+  {
+    id: 'fogao-lenha-la-nordica-rosa-xxl',
+    name: 'Fogão a Lenha La Nordica Rosa XXL 8.5 kW',
+    category: 'fogoes',
+    shortDescription: 'Fogão a lenha premium em ferro fundido esmaltado com forno panorâmico iluminado de 78L e chapa de cozedura de grande dimensão.',
+    fullDescription: 'O Rosa XXL da La Nordica - Extraflame é a referência em fogões a lenha de elevada eficiência. Revestimento exterior em aço esmaltado, portas e fachada em ferro fundido esmaltado, forno panorâmico de 78 litros com termómetro e gaveta inferior de arrumação de lenha. Eficiência energética A+ para aquecimento e alta gastronomia.',
+    price: 2450.00,
+    originalPrice: 2680.00,
+    vatRate: 0.23,
+    weightKg: 202,
+    unit: 'Unidade',
+    isPallet: false,
+    energyClass: 'A+',
+    rating: 4.9,
+    reviewCount: 28,
+    stock: 6,
+    featured: true,
+    image: fogaoRosaXXLImg,
+    additionalImages: [
+      fogaoRosaXXLImg
+    ],
+    tags: ['Fogões', 'Fogão a Lenha', 'La Nordica', 'Ferro Fundido', 'Forno 78L']
+  },
+  {
+    id: 'fogao-lenha-lacunza-lisboa-100',
+    name: 'Fogão a Lenha Lacunza Lisboa 100 (11 kW)',
+    category: 'fogoes',
+    shortDescription: 'Fogão a lenha moderno com forno inox panorâmico, sistema de dupla combustão limpa e tampo em vitrocerâmica de alta resistência.',
+    fullDescription: 'O modelo Lisboa 100 da Lacunza alia o charme tradicional da cozinha a lenha à tecnologia contemporânea. Conta com forno de cozedura rápida em aço inoxidável com escotilha de vidro duplo, controlo de entrada de ar primário e secundário e gaveta recolhedora de cinzas. Potência nominal de 11 kW ideal para espaços amplos.',
+    price: 2180.00,
+    originalPrice: 2390.00,
+    vatRate: 0.23,
+    weightKg: 185,
+    unit: 'Unidade',
+    isPallet: false,
+    energyClass: 'A+',
+    rating: 4.8,
+    reviewCount: 22,
+    stock: 8,
+    featured: true,
+    image: fogaoLacunzaLisboaImg,
+    additionalImages: [
+      fogaoLacunzaLisboaImg
+    ],
+    tags: ['Fogões', 'Fogão a Lenha', 'Lacunza', 'Inox', 'Vitrocerâmica']
+  },
+  {
+    id: 'fogao-lenha-la-nordica-sovrana-evo',
+    name: 'Fogão a Lenha La Nordica Sovrana EVO 2.0 (7.5 kW)',
+    category: 'fogoes',
+    shortDescription: 'Fogão rústico esmaltado compacto com chapa de ferro fundido com argolas amovíveis e forno esmaltado de 41 litros.',
+    fullDescription: 'Desenvolvido para proporcionar refeições de sabor inigualável e um aquecimento acolhedor na sua cozinha. O Sovrana EVO conta com chapa superior espessa em ferro fundido polido, forno esmaltado com termómetro de precisão, gaveta de cinzas facilmente extraível e aro de proteção em aço inox.',
+    price: 1690.00,
+    vatRate: 0.23,
+    weightKg: 135,
+    unit: 'Unidade',
+    isPallet: false,
+    energyClass: 'A+',
+    rating: 4.9,
+    reviewCount: 35,
+    stock: 10,
+    featured: true,
+    image: fogaoSovranaEvoImg,
+    tags: ['Fogões', 'Fogão a Lenha', 'La Nordica', 'Compacto', 'Forno 41L']
+  },
+  {
+    id: 'fogao-lenha-hergom-deva-100',
+    name: 'Fogão a Lenha Hergóm Deva 100 com Forno Inox (10 kW)',
+    category: 'fogoes',
+    shortDescription: 'Fogão a lenha de alto rendimento construído integralmente em ferro fundido vitrificado com forno panorâmico em aço inox.',
+    fullDescription: 'A Hergóm é reconhecida mundialmente pela durabilidade excecional do seu ferro fundido. O modelo Deva 100 oferece um forno amplo em aço inoxidável com luz interior, grelha lavável e porta com vidros duplos termorrefletor. Chapa de cozedura de grandes dimensões em ferro fundido espesso.',
+    price: 2890.00,
+    vatRate: 0.23,
+    weightKg: 210,
+    unit: 'Unidade',
+    isPallet: false,
+    energyClass: 'A+',
+    rating: 5.0,
+    reviewCount: 19,
+    stock: 4,
+    featured: false,
+    image: fogaoHergomDevaImg,
+    tags: ['Fogões', 'Fogão a Lenha', 'Hergóm', 'Ferro Fundido', 'Premium']
+  },
+  {
+    id: 'fogao-lenha-vulcano-tradicional-portugues',
+    name: 'Fogão a Lenha Tradicional Português Vulcano com Forno Inox',
+    category: 'fogoes',
+    shortDescription: 'O verdadeiro fogão a lenha tradicional português com chapa pesada em ferro fundido, acabamentos cromados e forno de aço inox.',
+    fullDescription: 'Fabricado com a tradição artesanal portuguesa, este fogão robusto em chapa de aço e ferro fundido refratário garante o calor reconfortante e a cozedura lenta inconfundível. Forno em inox com indicador analógico de temperatura, varão de proteção cromado e gaveta inferior espaçosa.',
+    price: 1290.00,
+    vatRate: 0.23,
+    weightKg: 150,
+    unit: 'Unidade',
+    isPallet: false,
+    energyClass: 'A',
+    rating: 4.8,
+    reviewCount: 41,
+    stock: 12,
+    featured: false,
+    image: fogaoTradicionalPtImg,
+    tags: ['Fogões', 'Fogão Tradicional', 'Português', 'Forno Inox']
+  },
+  {
+    id: 'fogao-lenha-la-nordica-padova-petra',
+    name: 'Fogão a Lenha La Nordica Padova Petra em Pedra Natural (8 kW)',
+    category: 'fogoes',
+    shortDescription: 'Fogão de luxo revestido em pedra natural serpentina com retenção térmica prolongada e porta de vidro duplo autolimpante.',
+    fullDescription: 'Um produto de excelência que combina a beleza da pedra natural com a tecnologia de aquecimento de ponta. Revestimento lateral em pedra serpentina que retém e emite calor de forma suave mesmo após o fogo apagar. Forno de 36 litros esmaltado, chapa superior em ferro fundido extra denso e sistema de lavagem de vidro por ar quente.',
+    price: 3150.00,
+    vatRate: 0.23,
+    weightKg: 235,
+    unit: 'Unidade',
+    isPallet: false,
+    energyClass: 'A+',
+    rating: 5.0,
+    reviewCount: 15,
+    stock: 3,
+    featured: true,
+    image: fogaoPadovaPetraImg,
+    tags: ['Fogões', 'Fogão a Lenha', 'Pedra Natural', 'La Nordica', 'Luxo']
+  },
+  {
+    id: 'suporte-chloe-ferro-preto-italia',
+    name: 'Ferro Pintado Preto Fabricado na Itália - Chloe',
+    category: 'suportes',
+    shortDescription: 'Suporte para lenha elegante em ferro pintado preto com rodas e pega em madeira natural. Fabricado na Itália.',
+    fullDescription: 'O modelo Chloe é um carrinho porta-lenha moderno e robusto construído em ferro pintado a preto com acabamento acetinado. Equipado com rodas de alta resistência e uma pega em madeira nobre que facilita a deslocação do combustível até à sua lareira ou salamandra. Design exclusivo Italian Made.',
+    price: 245.00,
+    vatRate: 0.23,
+    weightKg: 11.5,
+    unit: 'Unidade',
+    isPallet: false,
+    rating: 4.9,
+    reviewCount: 32,
+    stock: 12,
+    featured: true,
+    image: suporteChloeImg,
+    tags: ['Suportes', 'Porta-Lenha', 'Made in Italy', 'Com Rodas', 'Ferro Preto']
+  },
+  {
+    id: 'suporte-coruja-ferramentas-italia',
+    name: 'Porta-ferramentas com porta-ferramentas e acessórios integrados Fabricado na Itália - Coruja',
+    category: 'suportes',
+    shortDescription: 'Carrinho porta-lenha com estrutura porta-ferramentas e kit completo de acessórios de lareira integrados.',
+    fullDescription: 'O modelo Coruja combina a arrumação de lenha com a facilidade de transporte e acesso aos seus acessórios de limpeza. Conta com rodas suaves para piso de interior, compartimento para lenha vertical e ganchos integrados para pá, vassoura, tenaz e atiçador. Fabricado na Itália com padrões superiores de serralharia.',
+    price: 265.00,
+    vatRate: 0.23,
+    weightKg: 13.8,
+    unit: 'Unidade',
+    isPallet: false,
+    rating: 4.9,
+    reviewCount: 28,
+    stock: 10,
+    featured: true,
+    image: suporteCorujaImg,
+    tags: ['Suportes', 'Com Acessórios', 'Made in Italy', 'Com Rodas', 'Serralharia']
+  },
+  {
+    id: 'suporte-caracol-couro-ecologico-italia',
+    name: 'Saco para lenha em couro ecológico com rodas Fabricado na Itália - Caracol',
+    category: 'suportes',
+    shortDescription: 'Suporte e saco de transporte de lenha de luxo em couro ecológico com rodas embutidas. Fabricado na Itália.',
+    fullDescription: 'O modelo Caracol redefine a estética da arrumação de lenha. Revestido em couro ecológico de elevada durabilidade e fácil limpeza, com estrutura interna rígida e rodas silenciosas. Evita a dispersão de cascas e sujidade no chão da sua sala de estar.',
+    price: 259.00,
+    vatRate: 0.23,
+    weightKg: 9.2,
+    unit: 'Unidade',
+    isPallet: false,
+    rating: 5.0,
+    reviewCount: 41,
+    stock: 8,
+    featured: true,
+    image: suporteCaracolImg,
+    tags: ['Suportes', 'Couro Ecológico', 'Made in Italy', 'Luxo', 'Com Rodas']
+  },
+  {
+    id: 'suporte-colibri-2compartimentos-prateleira-italia',
+    name: 'Suporte de madeira com 2 compartimentos de arrumação e prateleira superior Made in Italy - Colibri',
+    category: 'suportes',
+    shortDescription: 'Móvel suporte de lenha vertical alto com 2 zonas de carga para toros e carrasca, prateleira superior e rodas.',
+    fullDescription: 'O Colibri é uma coluna de arrumação multifuncional. Possui dois níveis separados para organizar lenha grande e aparas/acendalhas, além de uma prateleira de topo para colocar fósforos, luvas ou objetos decorativos. Estrutura em aço com rodas giratórias de transporte fácil. Made in Italy.',
+    price: 319.00,
+    vatRate: 0.23,
+    weightKg: 16.5,
+    unit: 'Unidade',
+    isPallet: false,
+    rating: 4.9,
+    reviewCount: 35,
+    stock: 7,
+    featured: true,
+    image: suporteColibriImg,
+    tags: ['Suportes', 'Coluna Vertical', 'Made in Italy', '2 Compartimentos', 'Com Rodas']
+  },
+  {
+    id: 'suporte-polare-rodas-gaveta-italia',
+    name: 'Suporte de madeira com rodas e gaveta superior Made in Italy - Polare',
+    category: 'suportes',
+    shortDescription: 'Móvel porta-lenha em aço com rodas e elegante gaveta superior em tom de cobre para arrumação de pequenos acessórios.',
+    fullDescription: 'O modelo Polare sobressai pelo contraste único entre o corpo em aço pintado de preto e a gaveta superior com acabamento metalizado/cobre. Permite ter a lenha à mão e guardar acendalhas, fósforos ou acendedores na gaveta superior protegida. Made in Italy.',
+    price: 264.00,
+    vatRate: 0.23,
+    weightKg: 14.2,
+    unit: 'Unidade',
+    isPallet: false,
+    rating: 4.8,
+    reviewCount: 22,
+    stock: 9,
+    featured: false,
+    image: suportePolareImg,
+    tags: ['Suportes', 'Com Gaveta', 'Made in Italy', 'Cobre', 'Com Rodas']
+  },
+  {
+    id: 'suporte-camelo-couro-metal-4acessorios-italia',
+    name: 'Suporte de madeira em couro ecológico e metal com 4 acessórios Fabricado na Itália - Camelo',
+    category: 'suportes',
+    shortDescription: 'Estação de lenha premium em couro ecológico e metal com conjunto de 4 ferramentas de lareira com cabos em madeira nobre.',
+    fullDescription: 'O topo de gama dos suportes para lareira. O modelo Camelo junta a sofisticação do couro ecológico ao aço de elevada resistência. Inclui 4 ferramentas completas de lareira com acabamento em madeira e metal, instaladas lateralmente. Movimentação suave sobre rodas de precisão. Fabricado na Itália.',
+    price: 389.00,
+    vatRate: 0.23,
+    weightKg: 17.0,
+    unit: 'Unidade',
+    isPallet: false,
+    rating: 5.0,
+    reviewCount: 19,
+    stock: 5,
+    featured: true,
+    image: suporteCameloImg,
+    tags: ['Suportes', 'Topo de Gama', 'Couro Ecológico', 'Made in Italy', '4 Acessórios']
+  },
+  {
+    id: 'suporte-impala-alcas-laterais-italia',
+    name: 'Suporte de madeira em diferentes acabamentos com 2 alças laterais Fabricado na Itália - Impala',
+    category: 'suportes',
+    shortDescription: 'Cesto porta-lenha oval compacto em metal lacado com 2 pegas ergonómicas e rodas embutidas. Fabricado na Itália.',
+    fullDescription: 'Design limpo, dinâmico e extremamente prático. O modelo Impala é um cesto em forma de cuba em metal escuro de alta gramagem, com duas pegas tubulares reforçadas e rodas direcionais. Excelente para manter o canto da lareira impecável e aconchegante.',
+    price: 139.00,
+    vatRate: 0.23,
+    weightKg: 7.8,
+    unit: 'Unidade',
+    isPallet: false,
+    rating: 4.8,
+    reviewCount: 50,
+    stock: 15,
+    featured: false,
+    image: suporteImpalaImg,
+    tags: ['Suportes', 'Cesto Oval', 'Made in Italy', 'Compacto', 'Com Rodas']
+  },
+  {
+    id: 'suporte-fiamme-barra-obliqua-italia',
+    name: 'Suporte para Lenha com Barra Oblíqua em Aço Pintado Preto Fabricado na Itália - Fiamme',
+    category: 'suportes',
+    shortDescription: 'Porta-lenha geométrico moderno em aço com barra de separação oblíqua para organizar toros e acendalhas.',
+    fullDescription: 'Design vanguardista para salas modernas. O suporte Fiamme com barra oblíqua permite separar visualmente a lenha de maior calibre na zona inferior das gravetos e aparas finas na secção superior. Fabricado em chapa de aço pintada a preto fosco. Fabricado na Itália.',
+    price: 249.00,
+    vatRate: 0.23,
+    weightKg: 12.0,
+    unit: 'Unidade',
+    isPallet: false,
+    rating: 4.9,
+    reviewCount: 26,
+    stock: 11,
+    featured: true,
+    image: suporteFiammeObliquaImg,
+    tags: ['Suportes', 'Design Oblíquo', 'Made in Italy', 'Aço Preto', 'Fiamme']
+  },
+  {
+    id: 'suporte-fiamme-aco-preto-italia',
+    name: 'Suporte para Lenha em Aço Pintado Preto Fabricado na Itália - Fiamme',
+    category: 'suportes',
+    shortDescription: 'Suporte retangular minimalista e ultra resistente em aço pintado a preto fosco. Fabricado na Itália.',
+    fullDescription: 'Linhas puras e simplicidade máxima. O suporte retangular Fiamme é feito em chapa de aço dobrada com pintura eletrostática resistente ao calor e a impactos. Mantém os toros de lenha perfeitamente empilhados junto do recuperador. Fabricado na Itália.',
+    price: 140.00,
+    vatRate: 0.23,
+    weightKg: 8.9,
+    unit: 'Unidade',
+    isPallet: false,
+    rating: 4.9,
+    reviewCount: 33,
+    stock: 14,
+    featured: false,
+    image: suporteFiammeCompactoImg,
+    tags: ['Suportes', 'Minimalista', 'Made in Italy', 'Aço Preto', 'Fiamme']
+  }
+];
+
+export const FAQS = [
+  {
+    question: 'Como funciona a entrega de paletes de lenha e pellets em Portugal?',
+    answer: 'As nossas paletes são entregues por camião equipado com plataforma elevatória e porta-paletes elétrico. O motorista descarrega a palete no piso térreo da sua moradia ou garagem, desde que o pavimento seja plano e acessível.'
+  },
+  {
+    question: 'Qual a diferença entre Lenha de Sobro, Azinheira, Eucalipto e Carvalho?',
+    answer: 'A Azinheira, Sobro e Carvalho são madeiras nobres e densas que queimam lentamente e produzem brasas fortes de alta duração. O Eucalipto e o Pinho geram chama rápida e intensa, sendo excelentes para aquecimento rápido.'
+  },
+  {
+    question: 'Qual é a taxa de IVA aplicada nos biocombustíveis e equipamentos?',
+    answer: 'Em conformidade com o Código do IVA português, a lenha de aquecimento e os pellets beneficiam da taxa reduzida de IVA a 6%. Os equipamentos de aquecimento (salamandras, recuperadores) estão sujeitos à taxa de IVA a 23%.'
+  },
+  {
+    question: 'Como posso calcular os portes de envio para o meu distrito?',
+    answer: 'Utilize o nosso Calculador de Portes em tempo real na página do produto ou no carrinho. Basta selecionar o seu distrito (ex: Lisboa, Porto, Santarém, Faro) para ver o valor exato com base no peso total da encomenda.'
+  },
+  {
+    question: 'Fazem descontos para compras em grandes quantidades ou empresas?',
+    answer: 'Sim! Para compras superiores a 3 paletes, condomínios, pizzarias, hotéis e revendedores, dispomos de condições especiais. Pode solicitar um orçamento personalizado no nosso formulário de grandes quantidades ou via WhatsApp.'
+  }
+];
+
+export const WOOD_SPECIES_COMPARISON = [
+  {
+    species: 'Carvalho (Quercus robur)',
+    calorificPower: '4.7 kWh/kg',
+    burnDuration: 'Muito Longa (Chama nobre + brasas duradouras)',
+    density: 'Alta (780 kg/m³)',
+    ashPercent: '< 1.2%',
+    idealFor: 'LAREIRAS, SALAMANDRAS E RECUPERADORES DE CALOR',
+    stars: 5
+  },
+  {
+    species: 'Faia (Fagus sylvatica)',
+    calorificPower: '4.6 kWh/kg',
+    burnDuration: 'Longa (Chama viva e constante com grande calor)',
+    density: 'Alta (720 kg/m³)',
+    ashPercent: '< 1.3%',
+    idealFor: 'RECUPERADORES DE CALOR, FOGÕES E SALAMANDRAS',
+    stars: 5
+  },
+  {
+    species: 'Bétula (Betula pendula)',
+    calorificPower: '4.4 kWh/kg',
+    burnDuration: 'Média (Ignição rápida, chama limpa e brilhante)',
+    density: 'Média (650 kg/m³)',
+    ashPercent: '< 1.1%',
+    idealFor: 'ACENDIMENTO RÁPIDO E SALAMANDRAS DE VIDRO',
+    stars: 4
+  },
+  {
+    species: 'Sobro & Azinheira Ibérica',
+    calorificPower: '5.0 kWh/kg',
+    burnDuration: 'Extra Longa (Brasas incandescentes)',
+    density: 'Muito Alta (880 kg/m³)',
+    ashPercent: '< 1.4%',
+    idealFor: 'AQUECIMENTO INTENSIVO PARA A NOITE INTEIRA',
+    stars: 5
+  },
+  {
+    species: 'Eucalipto (Eucalyptus globulus)',
+    calorificPower: '4.5 kWh/kg',
+    burnDuration: 'Média-Alta (Calor rápido e forte chama)',
+    density: 'Média-Alta (700 kg/m³)',
+    ashPercent: '< 1.5%',
+    idealFor: 'AQUECIMENTO RÁPIDO DE DIVISÕES E FORNOS',
+    stars: 4
+  },
+  {
+    species: 'Oliveira (Olea europaea)',
+    calorificPower: '4.9 kWh/kg',
+    burnDuration: 'Longa (Chama calma e brasas muito quentes)',
+    density: 'Alta (840 kg/m³)',
+    ashPercent: '< 1.3%',
+    idealFor: 'LAREIRAS ABERTAS E RECUPERADORES TRADICIONAIS',
+    stars: 5
+  },
+  {
+    species: 'Pinho Seco (Pinus pinaster)',
+    calorificPower: '4.3 kWh/kg',
+    burnDuration: 'Rápida (Chama viva e aroma resinoso)',
+    density: 'Média (550 kg/m³)',
+    ashPercent: '< 1.0%',
+    idealFor: 'ACENDIMENTO E AQUECIMENTO EXPRESSO',
+    stars: 4
+  }
+];

@@ -1,0 +1,107 @@
+export type CategoryType = 'all' | 'lenha' | 'fogoes' | 'suportes' | 'pellets';
+
+export type WoodSpecies = 'carvalho' | 'faia' | 'betula' | 'sobro' | 'azinheira' | 'eucalipto' | 'oliveira' | 'pinho' | 'mistura' | 'nao_aplicavel';
+
+export interface Product {
+  id: string;
+  name: string;
+  category: 'lenha' | 'fogoes' | 'suportes' | 'pellets';
+  woodSpecies?: WoodSpecies;
+  shortDescription: string;
+  fullDescription: string;
+  price: number; // in Euros
+  originalPrice?: number;
+  vatRate: 0.06 | 0.23; // 6% for wood/pellets (Portugal energy rule), 23% for equipment/accessories
+  weightKg: number;
+  unit: string; // e.g., "Palete 1.8 m³", "Saco 15kg", "Unidade"
+  isPallet: boolean;
+  palletQuantity?: number;
+  moistureContentPercentage?: number; // e.g. < 15%
+  calorificPowerKwhKg?: number; // e.g. 4.9 kWh/kg
+  dimensionsCm?: string;
+  energyClass?: 'A++' | 'A+' | 'A';
+  rating: number;
+  reviewCount: number;
+  stock: number;
+  featured?: boolean;
+  image: string;
+  additionalImages?: string[];
+  tags: string[];
+}
+
+export interface District {
+  id: string;
+  name: string;
+  zone: 'norte' | 'centro' | 'sul' | 'islas';
+  baseShippingCost: number; // base cost per pallet/shipment
+  costPerExtraKg: number;
+  deliveryDaysMin: number;
+  deliveryDaysMax: number;
+  truckAccessNote?: string;
+}
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+  selectedCutLength?: string; // e.g. 25cm, 30cm, 40cm for lenha
+  selectedWoodSpecies?: string; // e.g. Carvalho, Faia, Bétula, Sobro, Azinheira
+}
+
+export interface ShippingCalculation {
+  district: string;
+  postalCode: string;
+  totalWeightKg: number;
+  palletCount: number;
+  deliveryMethod: 'truck_lift' | 'pickup' | 'express_courier';
+  shippingCost: number;
+  vatShipping: number;
+  estimatedDays: string;
+  requiresSpecialTruck: boolean;
+}
+
+export interface OrderCustomer {
+  fullName: string;
+  email: string;
+  phone: string;
+  nif?: string;
+  address: string;
+  postalCode: string;
+  city: string;
+  district: string;
+  deliveryNotes?: string;
+}
+
+export type PaymentMethodId = 'mbway' | 'multibanco' | 'card' | 'bank_transfer';
+
+export interface Order {
+  id: string;
+  createdAt: string;
+  customer: OrderCustomer;
+  items: CartItem[];
+  subtotalExclVat: number;
+  vat6Total: number;
+  vat23Total: number;
+  vatTotal: number;
+  shippingCost: number;
+  grandTotal: number;
+  paymentMethod: PaymentMethodId;
+  paymentStatus: 'pending' | 'paid' | 'failed';
+  orderStatus: 'processamento' | 'agendado_transporte' | 'em_transito' | 'entregue';
+  mbwayPhone?: string;
+  multibancoEntity?: string;
+  multibancoReference?: string;
+}
+
+export interface QuoteRequest {
+  id: string;
+  name: string;
+  companyName?: string;
+  email: string;
+  phone: string;
+  district: string;
+  productType: string;
+  estimatedQuantity: string;
+  comments: string;
+  createdAt: string;
+  status: 'pendente' | 'respondido';
+}

@@ -1,0 +1,221 @@
+import React, { useState } from 'react';
+import { Calculator, MapPin, Truck, AlertCircle, ShieldCheck, CheckCircle2, X } from 'lucide-react';
+import { PORTUGAL_DISTRICTS } from '../data/mockData';
+import { calculateShipping } from '../utils/shippingCalculator';
+
+interface ShippingCalculatorWidgetProps {
+  selectedDistrictId: string;
+  onSelectDistrict: (districtId: string) => void;
+  onClose?: () => void;
+}
+
+export const ShippingCalculatorWidget: React.FC<ShippingCalculatorWidgetProps> = ({
+  selectedDistrictId,
+  onSelectDistrict,
+  onClose,
+}) => {
+  const [districtId, setDistrictId] = useState(selectedDistrictId);
+  const [postalCode, setPostalCode] = useState('2000-001');
+  const [weightKg, setWeightKg] = useState(850);
+  const [isPallet, setIsPallet] = useState(true);
+  const [palletQty, setPalletQty] = useState(1);
+  const [deliveryMethod, setDeliveryMethod] = useState<'truck_lift' | 'pickup'>('truck_lift');
+
+  const selectedDistrict = PORTUGAL_DISTRICTS.find(d => d.id === districtId) || PORTUGAL_DISTRICTS[0];
+
+  // Dummy mock item for weight calculation
+  const mockItem = {
+    product: {
+      id: 'calc-temp',
+      name: 'Simulação',
+      category: 'lenha' as const,
+      shortDescription: '',
+      fullDescription: '',
+      price: 200,
+      vatRate: 0.06 as const,
+      weightKg: isPallet ? 850 : weightKg,
+      unit: isPallet ? 'Palete' : 'kg',
+      isPallet: isPallet,
+      rating: 5,
+      reviewCount: 1,
+      stock: 10,
+      image: '',
+      tags: []
+    },
+    quantity: isPallet ? palletQty : 1
+  };
+
+  const shipping = calculateShipping(districtId, [mockItem], deliveryMethod);
+
+  return (
+    <div className="bg-stone-900 border border-stone-800 rounded-2xl p-6 shadow-xl text-stone-100 max-w-2xl mx-auto my-6 relative">
+      {onClose && (
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-1.5 text-stone-400 hover:text-white bg-stone-800 rounded-lg"
+        >
+          <X size={18} />
+        </button>
+      )}
+
+      <div className="flex items-center gap-3 mb-4 pb-3 border-b border-stone-800">
+        <div className="p-2.5 bg-amber-600/20 text-amber-400 rounded-xl border border-amber-500/30">
+          <Calculator size={22} />
+        </div>
+        <div>
+          <h3 className="font-extrabold text-lg font-serif text-stone-100">Calculador de Portes para Portugal</h3>
+          <p className="text-xs text-stone-400">Simule o envio de lenha e pellets em tempo real por distrito e peso total.</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        {/* District Selector */}
+        <div>
+          <label className="block font-bold text-stone-300 mb-1.5 flex items-center gap-1">
+            <MapPin size={14} className="text-amber-500" />
+            Distrito de Entrega:
+          </label>
+          <select
+            value={districtId}
+            onChange={(e) => {
+              setDistrictId(e.target.value);
+              onSelectDistrict(e.target.value);
+            }}
+            className="w-full bg-stone-800 text-stone-100 p-2.5 rounded-lg border border-stone-700 focus:outline-none focus:border-amber-500 font-semibold"
+          >
+            {PORTUGAL_DISTRICTS.map((d) => (
+              <option key={d.id} value={d.id}>
+                {d.name} ({d.zone.toUpperCase()})
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Postal Code */}
+        <div>
+          <label className="block font-bold text-stone-300 mb-1.5">Código Postal (Ex: 2700-123):</label>
+          <input
+            type="text"
+            value={postalCode}
+            onChange={(e) => setPostalCode(e.target.value)}
+            placeholder="xxxx-xxx"
+            className="w-full bg-stone-800 text-stone-100 p-2.5 rounded-lg border border-stone-700 focus:outline-none focus:border-amber-500"
+          />
+        </div>
+
+        {/* Cargo Type */}
+        <div className="md:col-span-2">
+          <label className="block font-bold text-stone-300 mb-1.5">Tipo de Carga:</label>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setIsPallet(true)}
+              className={`p-2.5 rounded-lg border font-bold text-center transition-all ${
+                isPallet
+                  ? 'bg-amber-600/30 text-amber-300 border-amber-500'
+                  : 'bg-stone-800 text-stone-400 border-stone-700'
+              }`}
+            >
+              Paletes de Lenha/Pellets (850kg-1050kg)
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsPallet(false)}
+              className={`p-2.5 rounded-lg border font-bold text-center transition-all ${
+                !isPallet
+                  ? 'bg-amber-600/30 text-amber-300 border-amber-500'
+                  : 'bg-stone-800 text-stone-400 border-stone-700'
+              }`}
+            >
+              Encomenda Pequena em Sacos (&lt; 100kg)
+            </button>
+          </div>
+        </div>
+
+        {/* Pallet quantity or Weight slider */}
+        {isPallet ? (
+          <div>
+            <label className="block font-bold text-stone-300 mb-1">Quantidade de Paletes:</label>
+            <div className="flex items-center gap-2">
+              {[1, 2, 3, 4].map((qty) => (
+                <button
+                  key={qty}
+                  onClick={() => setPalletQty(qty)}
+                  className={`flex-1 py-1.5 rounded font-bold border transition-all ${
+                    palletQty === qty ? 'bg-amber-600 text-stone-950 border-amber-500' : 'bg-stone-800 border-stone-700 text-stone-300'
+                  }`}
+                >
+                  {qty} {qty === 1 ? 'Palete' : 'Paletes'}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div>
+            <label className="block font-bold text-stone-300 mb-1">Peso Total (kg): {weightKg} kg</label>
+            <input
+              type="range"
+              min="10"
+              max="200"
+              step="5"
+              value={weightKg}
+              onChange={(e) => setWeightKg(Number(e.target.value))}
+              className="w-full accent-amber-500 cursor-pointer"
+            />
+          </div>
+        )}
+
+        {/* Delivery Method */}
+        <div>
+          <label className="block font-bold text-stone-300 mb-1">Opção de Logística:</label>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setDeliveryMethod('truck_lift')}
+              className={`flex-1 py-1.5 px-2 rounded font-semibold text-[11px] border ${
+                deliveryMethod === 'truck_lift' ? 'bg-amber-600/30 text-amber-300 border-amber-500' : 'bg-stone-800 border-stone-700 text-stone-400'
+              }`}
+            >
+              Entrega Moradia
+            </button>
+            <button
+              type="button"
+              onClick={() => setDeliveryMethod('pickup')}
+              className={`flex-1 py-1.5 px-2 rounded font-semibold text-[11px] border ${
+                deliveryMethod === 'pickup' ? 'bg-amber-600/30 text-amber-300 border-amber-500' : 'bg-stone-800 border-stone-700 text-stone-400'
+              }`}
+            >
+              Levantamento Armazém (Grátis)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Result Display Box */}
+      <div className="mt-5 p-4 bg-stone-950 rounded-xl border border-amber-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <p className="text-xs text-stone-400">Estimativa de Envio para {shipping.district}:</p>
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-black text-amber-400 font-serif">
+              {shipping.shippingCost === 0 ? 'GRÁTIS' : `${shipping.shippingCost.toFixed(2)} €`}
+            </span>
+            {shipping.shippingCost > 0 && (
+              <span className="text-xs text-stone-500">(c/ IVA 23% incluído)</span>
+            )}
+          </div>
+          <p className="text-[11px] text-emerald-400 mt-0.5">Prazo de Entrega: {shipping.estimatedDays}</p>
+        </div>
+
+        <div className="text-right text-xs space-y-1">
+          <div className="flex items-center gap-1.5 text-stone-300 justify-end">
+            <Truck size={14} className="text-amber-500" />
+            <span>{deliveryMethod === 'pickup' ? 'Santarém / Lisboa Showroom' : 'Camião com Plataforma Elevatória'}</span>
+          </div>
+          {selectedDistrict.truckAccessNote && (
+            <p className="text-[10px] text-stone-400 max-w-xs">{selectedDistrict.truckAccessNote}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
